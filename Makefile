@@ -8,4 +8,4 @@ clean:
 	$(RM) main-raw.lua
 
 main-raw.lua: $(wildcard *.hx)
-	$(HAXE) -main HelloWorld -lua $@
+	$(HAXE) -main Main -lua $@
