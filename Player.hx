@@ -1,15 +1,25 @@
 import love.graphics.GraphicsModule as Graphics;
-import love.keyboard.KeyboardModule as Keyboard;
+import love.joystick.JoystickModule;
+import love.joystick.Joystick;
 
 class Player implements LivingEntity
 {
 	private var position : Vector;
 	private var size : Float = 10;
 	private var speed : Float = 25;
+	private var gamepad : Joystick;
+	private var bulletSpeed : Float = 50;
+	private var bulletSize : Float = 5;
+
+	private static var deadZone = 0.10;
 
 	public function new(x : Float, y : Float)
 	{
 		position = new Vector(x, y);
+
+		for (j in new Ipairs(JoystickModule.getJoysticks()))
+			if ((j : Joystick).isGamepad())
+				gamepad = j;
 	}
 
 	public function toReap()
@@ -22,37 +32,38 @@ class Player implements LivingEntity
 		return 5;
 	}
 
-	public function move(dt : Float)
+	private function getGamepadDirection(x, y)
 	{
 		var dir = new Vector();
-		if (Keyboard.isDown("up"))
-			dir.y -= 1;
-		if (Keyboard.isDown("down"))
-			dir.y += 1;
-		if (Keyboard.isDown("left"))
-			dir.x -= 1;
-		if (Keyboard.isDown("right"))
-			dir.x += 1;
+		dir.x = gamepad.getGamepadAxis(x);
+		dir.y = gamepad.getGamepadAxis(y);
 
-		position.add(dir.normalize().mul(speed*dt));
+		if (Math.abs(dir.x) < deadZone)
+			dir.x = 0;
+		if (Math.abs(dir.y) < deadZone)
+			dir.y = 0;
+
+		return dir.normalize();
+	}
+
+	public function move(dt : Float)
+	{
+		var dir = getGamepadDirection(Leftx, Lefty);
+		position.add(dir.mul(speed*dt));
 	}
 
 	public function act(dt : Float)
 	{
-		if (Keyboard.isDown("space"))
-		{
-			var bullets = new Array<Bullet>();
+		var dir = getGamepadDirection(Rightx, Righty);
+		if (dir.length() == 0)
+			return null;
 
-			var pos = position.copy();
-			pos.x += 5;
-			var dir = new Vector(100, 0);
-			var bullet = new Bullet(pos, dir, 5);
-			bullets.push(bullet);
+		var bullets = new Array<Bullet>();
 
-			return bullets;
-		}
+		var pos = dir.copy().mul(size+bulletSize).add(position);
+		bullets.push(new Bullet(pos, dir.mul(bulletSpeed), bulletSize));
 
-		return null;
+		return bullets;
 	}
 
 	public function draw()
