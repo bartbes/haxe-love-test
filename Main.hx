@@ -1,6 +1,6 @@
 import love.Love;
 
-class Main extends Gamestate
+class Main
 {
 	public static function main()
 	{
