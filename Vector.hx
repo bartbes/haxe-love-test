@@ -23,6 +23,13 @@ class Vector
 		return this;
 	}
 
+	public function sub(other : Vector) : Vector
+	{
+		 x -= other.x;
+		 y -= other.y;
+		 return this;
+	}
+
 	public function mul(f : Float) : Vector
 	{
 		x *= f;
