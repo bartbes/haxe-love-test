@@ -1,5 +1,9 @@
+import love.graphics.GraphicsModule as Graphics;
+
 class Playstate extends Gamestate
 {
+	private static var debug = true;
+
 	private var player : Player;
 	private var nonlivingEntities : Array<Entity>;
 	private var livingEntities : Array<LivingEntity>;
@@ -44,5 +48,20 @@ class Playstate extends Gamestate
 
 		for (entity in livingEntities)
 			entity.draw();
+
+		if (debug)
+		{
+			var text = new StringBuf();
+
+			text.add("Living entities: ");
+			text.add(livingEntities.length);
+			text.add("\n");
+
+			text.add("Nonliving entities: ");
+			text.add(nonlivingEntities.length);
+			text.add("\n");
+
+			Graphics.print(text.toString(), 10, 10);
+		}
 	}
 }
