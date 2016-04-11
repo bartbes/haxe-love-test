@@ -72,6 +72,10 @@ class Playstate extends Gamestate
 			text.add(nonlivingEntities.length);
 			text.add("\n");
 
+			text.add("Player health: ");
+			text.add(player.getHealth());
+			text.add("\n");
+
 			Graphics.print(text.toString(), 10, 10);
 		}
 	}
