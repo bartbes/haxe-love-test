@@ -40,6 +40,8 @@ class Playstate extends Gamestate
 			for (bullet in newBullets)
 				nonlivingEntities.push(bullet);
 
+		doCollisions();
+
 		reap(livingEntities);
 		reap(nonlivingEntities);
 	}
@@ -50,6 +52,30 @@ class Playstate extends Gamestate
 		while (--i >= 0)
 			if (list[i].toReap())
 				list.splice(i, 1);
+	}
+
+	private function doCollisions()
+	{
+		for (entity in livingEntities)
+		{
+			var entPos = entity.getPosition();
+
+			for (nonliving in nonlivingEntities)
+			{
+				if (!Std.is(nonliving, Bullet))
+					continue;
+
+				var bullet : Bullet = cast nonliving;
+				var pos = bullet.getPosition();
+				var size = bullet.getSize();
+
+				if (pos.sub(entPos).length() > size)
+					continue;
+
+				bullet.hit();
+				entity.damage();
+			}
+		}
 	}
 
 	public override function draw()
