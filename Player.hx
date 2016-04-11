@@ -7,6 +7,7 @@ class Player implements LivingEntity
 	private var position : Vector;
 	private var size : Float = 10;
 	private var speed : Float = 25;
+	private var health : Int = 5;
 	private var gamepad : Joystick;
 	private var bulletSpeed : Float = 50;
 	private var bulletSize : Float = 5;
@@ -29,7 +30,17 @@ class Player implements LivingEntity
 
 	public function getHealth()
 	{
-		return 5;
+		return health;
+	}
+
+	public inline function damage()
+	{
+		health -= 1;
+	}
+
+	public inline function getPosition()
+	{
+		return position.copy();
 	}
 
 	private function getGamepadDirection(x, y)

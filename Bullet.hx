@@ -5,12 +5,14 @@ class Bullet implements Entity
 	private var position : Vector;
 	private var velocity : Vector;
 	private var size : Float;
+	private var hasHit : Bool;
 
 	public function new(position : Vector, velocity : Vector, size : Float)
 	{
 		this.position = position.copy();
 		this.velocity = velocity.copy();
 		this.size = size;
+		hasHit = false;
 	}
 
 	public function toReap()
@@ -22,7 +24,22 @@ class Bullet implements Entity
 				|| position.y > height+size)
 			return true;
 
-		return false;
+		return hasHit;
+	}
+
+	public inline function hit()
+	{
+		hasHit = true;
+	}
+
+	public inline function getPosition()
+	{
+		return position.copy();
+	}
+
+	public inline function getSize()
+	{
+		return size;
 	}
 
 	public function move(dt : Float)
