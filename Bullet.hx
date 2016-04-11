@@ -15,6 +15,13 @@ class Bullet implements Entity
 
 	public function toReap()
 	{
+		var width = Graphics.getWidth();
+		var height = Graphics.getHeight();
+
+		if (position.x < -size || position.y < -size || position.x > width+size
+				|| position.y > height+size)
+			return true;
+
 		return false;
 	}
 

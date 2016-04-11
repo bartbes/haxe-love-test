@@ -39,6 +39,17 @@ class Playstate extends Gamestate
 		if (newBullets != null)
 			for (bullet in newBullets)
 				nonlivingEntities.push(bullet);
+
+		reap(livingEntities);
+		reap(nonlivingEntities);
+	}
+
+	private function reap<T:Entity>(list : Array<T>)
+	{
+		var i = list.length;
+		while (--i >= 0)
+			if (list[i].toReap())
+				list.splice(i, 1);
 	}
 
 	public override function draw()
