@@ -44,6 +44,9 @@ class Playstate extends Gamestate
 
 		reap(livingEntities);
 		reap(nonlivingEntities);
+
+		if (player.getHealth() <= 0)
+			GamestateManager.switchState(new DeathState());
 	}
 
 	private function reap<T:Entity>(list : Array<T>)
