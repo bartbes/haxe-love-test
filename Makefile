@@ -7,5 +7,5 @@ all: main-raw.lua
 clean:
 	$(RM) main-raw.lua
 
-main-raw.lua: $(wildcard *.hx)
+main-raw.lua: $(shell find . -name "*.hx")
 	$(HAXE) -main Main -lua $@

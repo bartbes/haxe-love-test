@@ -55,4 +55,14 @@ class Vector
 			return this;
 		return mul(1/len);
 	}
+
+	public function angle() : Float
+	{
+		return Math.atan2(y, x);
+	}
+
+	public static function fromAngle(angle : Float) : Vector
+	{
+		return new Vector(Math.cos(angle), Math.sin(angle));
+	}
 }

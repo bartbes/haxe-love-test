@@ -6,7 +6,7 @@ class Main
 	{
 		Love.load = function(args)
 		{
-			GamestateManager.switchState(new Playstate());
+			GamestateManager.switchState(Playstate.instance);
 		};
 	}
 }

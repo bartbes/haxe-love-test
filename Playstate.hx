@@ -4,12 +4,22 @@ class Playstate extends Gamestate
 {
 	private static var debug = true;
 
-	private var player : Player;
+	public static var instance(get, null) : Playstate;
+	private static var _instance : Null<Playstate>;
+
+	public var player : Player;
 	private var nonlivingEntities : Array<Entity>;
 	private var livingEntities : Array<LivingEntity>;
 
-	public function new()
+	private function new()
 	{
+	}
+
+	public static function get_instance()
+	{
+		if (_instance == null)
+			_instance = new Playstate();
+		return _instance;
 	}
 
 	public override function load()
@@ -19,6 +29,7 @@ class Playstate extends Gamestate
 		nonlivingEntities = new Array<Entity>();
 		livingEntities = new Array<LivingEntity>();
 		livingEntities.push(player);
+		livingEntities.push(new Enemy(new enemies.Dumb(), 100, 100));
 	}
 
 	public override function update(dt : Float)
